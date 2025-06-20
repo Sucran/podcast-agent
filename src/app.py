@@ -2,42 +2,41 @@ from agents import Agent, Runner, OpenAIChatCompletionsModel, set_tracing_disabl
 import os
 from dotenv import load_dotenv
 from openai import AsyncOpenAI
-from ui.gradio_ui import create_app
+from ui.gradio_agent_ui import create_agent_app
+from ai import podcast_mcp_server, minimax_mcp_server, sst_agent, tts_agent
+import asyncio  
+from model import deepseek_r1_model, model_settings
+from event import EventHandlerChain
 
 load_dotenv()
 
 # Disable tracing to avoid SSL errors when using non-OpenAI models
 set_tracing_disabled(True)
 
-# Create a custom OpenAI client pointing to DeepSeek
-custom_client = AsyncOpenAI(
-    api_key=os.getenv("DS_API_KEY"),
-    base_url="https://api.deepseek.com"
-)
-
-agent = Agent(
-    name="Assistant",
+plan_agent = Agent(
+    name="Planner",
     instructions="You are a helpful assistant that can answer questions and help with tasks. Please be concise and accurate in your responses.",
-    model=OpenAIChatCompletionsModel(
-        model="deepseek-chat",  # Use the correct model name for DeepSeek
-        openai_client=custom_client
-    ),
-    tools=[],
+    model=deepseek_r1_model,
+    handoff_description="You can handoff to sst_agent to convert speech to text. You can handoff to tts_agent to convert text to speech.",
+    handoffs=[sst_agent, tts_agent],
+    model_settings=model_settings
 )
 
-app = create_app(agent)
+event_handler_chain = EventHandlerChain()
+app = create_agent_app(plan_agent, [podcast_mcp_server, minimax_mcp_server], event_handler_chain)
+
 
 if __name__ == "__main__":
-    print("🚀 Starting OpenAI Agent Chat Interface...")
-    print("📱 The interface will be available at: http://localhost:7860")
-    print("🛑 Press Ctrl+C to stop the server\n")
     
     app.launch(
-        server_port=7860,
+        server_port=8000,
         share=False,
         debug=True,
         show_error=True
     )
+
+    # asyncio.run(main())
+
 
 
 
