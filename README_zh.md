@@ -1,8 +1,16 @@
 # 🎤 Podacast Agent 
 
+> **English Documentation**: [README.md](README.md)
+
 一个基于 OpenAI Agents SDK 的多功能AI助手项目，集成了语音转文字(SST)、文字转语音(TTS)和播客处理功能。
 
 ## 🌟 功能特性
+
+### 技术亮点
+
+由于OpenAI Agent SDK在多智能体的情况下，是异步循环等待的。这对于用户来说，并不能直观的看到目前Agent正在处理哪个阶段，所以这个项目使用责任链的方式，对流式事件进行了代理消息的映射，让用户能直观的看到目前是哪一个阶段
+
+同时我还提交了 gradio-example 到 OpenAI Agent SDK 项目 https://github.com/openai/openai-agents-python/pull/888. 这边的example会更加简单清晰，用户可以先去运行这个项目。
 
 ### 核心功能
 - **多代理协作**：通过Agent代理系统实现任务分工
@@ -88,6 +96,11 @@ MINIMAX_MCP_BASE_PATH=/path/to/your/files
 # 其他配置
 OPENAI_API_KEY=your_openai_api_key_if_needed
 ```
+### ⚠️ 重要: 要先本地部署 Podcast MCP
+
+查看 github 仓库：https://github.com/Sucran/modal-transcriber-mcp.git
+
+先部署 podcast-mcp，否则speech-to-text的agent无法正常使用
 
 ### 启动应用
 

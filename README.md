@@ -1,5 +1,7 @@
 # 🎤 Podcast Agent 
 
+> **中文文档**: [README_zh.md](README_zh.md)
+
 A multifunctional AI assistant project based on OpenAI Agents SDK, integrating Speech-to-Text (STT), Text-to-Speech (TTS), and podcast processing capabilities.
 
 ## 🌟 Features
@@ -17,6 +19,12 @@ A multifunctional AI assistant project based on OpenAI Agents SDK, integrating S
 - **MCP Integration**: Support for multiple Model Context Protocol servers
 - **Multi-Model Support**: Configurable AI models (DeepSeek R1, etc.)
 - **Real-time Monitoring**: Complete event tracking and debugging information
+
+## 💡 Technical Highlights
+
+Since the OpenAI Agent SDK uses asynchronous loop waiting in multi-agent scenarios, users cannot intuitively see which stage the Agent is currently processing. This project uses a chain of responsibility pattern to map streaming events to agent messages, allowing users to visually see which stage is currently being processed.
+
+I have also submitted a gradio-example to the OpenAI Agent SDK project: https://github.com/openai/openai-agents-python/pull/888. The example there is simpler and clearer, and users can run that project first.
 
 ## 🛠️ Tech Stack
 
