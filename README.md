@@ -74,6 +74,12 @@ cd podcast-agent
 uv sync
 ```
 
+### ⚠️ Important: Deploy Podcast MCP in local mode First
+
+**Deploy podcast-mcp first, otherwise the speech-to-text agent cannot function properly.**
+
+View GitHub repository: https://github.com/Sucran/modal-transcriber-mcp.git
+
 ### Environment Configuration
 
 Create a `.env` file and configure the following environment variables:
